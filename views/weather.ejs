@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Weather</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+ 
+    <div class="city-info">
+        <h1> <%= weather.location.name %>, <%= weather.location.region %> </h1>
+        <h2> <%= weather.location.country %></h2>
+    </div>
+
+    <div class="weather-dashboard">        
+        <div class="card day-info">
+            <div class="day">
+                <h1> <%= weekDay %></h1>
+                <h2> <%= formattedDate %></h2>
+            </div>  
+
+            <div class="card-content">
+                <div class="weather-icon">
+                    <img class="img" src="<%= weather.current.condition.icon %>" alt="Weather icon">
+                    <h2> <%= weather.current.condition.text %></h2>
+                </div>
+
+                <div class="feel">
+                    <h1> <%= weather.current.temp_c %>°C</h1>
+                </div>
+            </div>  <!-- End of card content --> 
+
+            <div class="feel card-content">
+                <h2 > Real feel </h2>
+                <h1><%=weather.current.feelslike_c %>°C</h1>
+            </div>        
+        </div> <!-- End of card day-info -->
+
+        <div class="wrapper">
+            <div class="visibility-wind-humidity">
+                <div class="card air-card">
+                    <div class="card-content">
+                        <img class="content" src="/images/visibility.png" alt="Visibility icon">
+                        <h1> Visibility</h1>
+                    </div>
+                    <h2><%= visibilityKm %> km</h2>
+                </div> <!-- End of card air-card -->
+                    
+                <div class="card wind-card">
+                    <div class="card-content">
+                        <img class="content" src="images/wind.png" alt="Wind icon">
+                        <h1>Wind </h1>
+                    </div>
+                    <h2><%= weather.current.wind_kph %> km/h</h2>
+                </div> <!-- End of card wind-card -->
+
+                <div class="card humidity-card">
+                    <div class="card-content">
+                        <img class="content" src="/images/humidity.png" alt="Humidity icon">
+                        <h1> Humidity</h1>
+                    </div>
+                    <h2><%= weather.current.humidity %>%</h2>
+                </div> <!-- End of card humidity-card -->
+            </div> <!-- End of visibility-wind-humidity -->
+
+            <div class="sunrise-sunset">
+                <div class="card sunrise-card">
+                    <div class="card-content">
+                        <img class="content" src="/images/sunrise.png" alt="Sunrise icon">
+                        <h1> Sunrise</h1>
+                    </div>
+                    <h2> <%= astronomy.astronomy.astro.sunrise %></h2>
+                </div> <!-- End of card sunrise-card -->
+
+                <div class="card sunset-card">
+                        <div class="card-content">
+                            <img class="content" src="/images/sunset.png" alt="Sunset icon">
+                            <h1> Sunset</h1>
+                        </div>
+                        <h2> <%= astronomy.astronomy.astro.sunset %></h2>
+                </div> <!-- End of card sunset-card -->
+            </div>
+        </div>  <!-- End of wrapper --><div class="card forecast">
+        
+        <h2>Forecast</h2>
+        <div class="forecast-cards">
+            <% nextHours.forEach(function(hour) { %>
+                <div class="hour-card">
+                    <h3><%= hour.time %></h3> 
+                    <img class="forecast-icon" src= "<%= hour.condition_icon %>" alt="Weather Icon">
+                    <p><%= hour.temp_c %>°C </p>
+                </div>
+            <% }); %>
+        </div>
+    </div>  <!-- End of weather-dashboard -->
+  
+</body>
+</html>
