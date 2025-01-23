@@ -76,7 +76,7 @@ app.post("/current-weather",  async (req, res) =>{
         }
 
         // Get the next 4 hours from reorderedForecast
-        nextHours = reorderedForecast.slice(0, 4).map(forecast => {
+        nextHours = reorderedForecast.slice(0, 6).map(forecast => {
             const forecastTime = new Date(forecast.time);
             const forecastHour = forecastTime.getHours();
 
@@ -92,15 +92,15 @@ app.post("/current-weather",  async (req, res) =>{
             };
         });
       
-    res.render("weather.ejs", {
-        weather: forecast.data, 
-        formattedDate: formattedDate,
-        weekDay: weekDay,
-        astronomy: astronomy.data,
-        visibilityKm: visibility,
-        lat: latitude,
-        long: longitude, 
-        nextHours: nextHours
+        res.render("weather.ejs", {
+            weather: forecast.data, 
+            formattedDate: formattedDate,
+            weekDay: weekDay,
+            astronomy: astronomy.data,
+            visibilityKm: visibility,
+            lat: latitude,
+            long: longitude, 
+            nextHours: nextHours
         });
     }catch(error){
         console.log(error);
