@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Current Weather</title>
-    <link rel="stylesheet" href="/styles/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-</head>
-<body>
+<%- include('partials/header.ejs', { title: 'Current Weather',  pageClass: 'weather-page', leaflet: true }) %>
  
     <div class="city-info">
         <h1> <%= weather.location.name %>, <%= weather.location.region %> </h1>
@@ -84,19 +73,45 @@
                         <h2> <%= astronomy.astronomy.astro.sunset %></h2>
                 </div> <!-- End of card sunset-card -->
             </div>
-        </div>  <!-- End of wrapper --><div class="card forecast">
-        
-        <h2>Forecast</h2>
-        <div class="forecast-cards">
-            <% nextHours.forEach(function(hour) { %>
-                <div class="hour-card">
-                    <h3><%= hour.time %></h3> 
-                    <img class="forecast-icon" src= "<%= hour.condition_icon %>" alt="Weather Icon">
-                    <p><%= hour.temp_c %>°C </p>
+        </div>  <!-- End of wrapper -->
+     </div>  <!-- End of weather-dashboard -->    
+    
+     <div class="forecast-map">
+        <h1>6-Hour Forecast</h1>
+            <div class="card-content">
+                <div class="forecast-cards">
+                    <% nextHours.forEach(function(hour) { %>
+                        <div class="hour-card">
+                            <h3><%= hour.time %></h3> 
+                            <img class="forecast-icon" src= "<%= hour.condition_icon %>" alt="Weather Icon">
+                            <p><%= hour.temp_c %>°C </p>
+                        </div>
+                    <% }); %>
                 </div>
-            <% }); %>
-        </div>
-    </div>  <!-- End of weather-dashboard -->
-  
-</body>
-</html>
+                
+                <div id="map"></div>
+            </div>   <!-- End of cards-content -->
+    </div> <!-- End of forecast-map -->
+    
+    <script>
+        // Latitude and longitude from the Express backend
+        const latitude = "<%= lat %>";
+        const longitude =  "<%= long %>";
+        console.log("Latitude:", latitude, "Longitude:", longitude);
+    
+        // Initialize the map centered on latitude and longitude
+        const map = L.map('map').setView([latitude, longitude], 13);
+    
+        // Add the map tile layer (images) from OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+    
+        // Adaugă un marker în locația indicată
+        L.marker([latitude, longitude]).addTo(map)
+    </script>
+    
+    <script src="/js/header.js"></script>
+    <script src="/js/footer.js"></script>
+            
+    <%- include('partials/footer.ejs') %>
